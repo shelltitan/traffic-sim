@@ -101,10 +101,12 @@ for i in picture_lane:
     temp_array = []
     for k in i:
         if(k == -1):
-            temp_array.append(255) #white
+            temp_array.append(np.uint8(255)) #white
         else:
-            temp_array.append(0) #black
+            temp_array.append(np.uint8(0)) #black
     array2.append(temp_array)
 pic_array = np.array(array2)
 img = Image.fromarray(pic_array)
 print(error)
+img.save('array.png')
+
