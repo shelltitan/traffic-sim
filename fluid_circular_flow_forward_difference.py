@@ -18,11 +18,9 @@ for i in range(size):
     else:
         road_t.append(15)
         road_dt.append(15)
-while time_elapsed < 10000:
+while time_elapsed < 1000:
     for i in range(size):
-        if i == 0:
-            road_dt[i] += 0.01/2 * (v(road_t[i]) * (road_t[i] - road_t[i+1]) + road_t[i] * (v(road_t[i]) - v(road_t[i+1])))
-        elif i == size - 1:
+        if i == size - 1:
             road_dt[i] += 0.01/2 * (v(road_t[i]) * (road_t[i] - road_t[0]) + road_t[i] * (v(road_t[i]) - v(road_t[0])))
         else:
             road_dt[i] += 0.01/2 * (v(road_t[i]) * (road_t[i] - road_t[i+1]) + road_t[i] * (v(road_t[i]) - v(road_t[i+1])))
@@ -47,7 +45,7 @@ array2 = []
 #pic_array = np.array(array2)
 #img = Image.fromarray(pic_array)
 x = range(0, 100)
-y = range(0, 10000)
+y = range(0, 1000)
 X, Y = np.meshgrid(x, y)
 Z = np.array(road_ev)
 fig = plt.figure()
@@ -59,4 +57,3 @@ ax.set_ylabel('y')
 ax.set_zlabel('z')
 ax.view_init(90, 0)
 ax.view_init(60, 30)
-

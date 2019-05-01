@@ -20,12 +20,12 @@ error = 0
 lane = []
 picture_lane = []
 for i in range(tile_number):
-    if np.random.uniform() > 0.5:
+    if 500 > i:
         lane.append(-1)
     else:
         lane.append(np.random.randint(0,v_max))
         cars += 1
-while time_elapsed < 10000:
+while time_elapsed < 2000:
     if lane[0] == -1 and 0.5 > np.random.uniform():
         lane[0] = 1
         cars += 1

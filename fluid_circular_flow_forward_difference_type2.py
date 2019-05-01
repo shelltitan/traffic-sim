@@ -9,11 +9,6 @@ time_elapsed = 0
 v_max = 5
 max_density = 30
 
-def v(density):
-    return (1-density/max_density)*v_max
-
-bc_rho = 0
-
 for i in range(size):
     if i < size/2:
         road_t.append(30)
@@ -21,12 +16,14 @@ for i in range(size):
     else:
         road_t.append(15)
         road_dt.append(15)
-while time_elapsed < 1000:
+while time_elapsed < 10000:
     for i in range(size):
-        if i == size - 1:
-            road_dt[i] += 0.01/2 * (v(road_t[i]) * (road_t[i] - bc_rho) + road_t[i] * (v(road_t[i]) - v(bc_rho)))
+        if i == 1:
+            road_dt[i] += 0.01/2 * v_max * (road_t[i] - road_t[i+1] - 2 * (road_t[i] / max_density) * (road_t[i] - road_t[i+1]))
+        elif i == size - 1:
+            road_dt[i] += 0.01/2 * v_max * (road_t[i] - road_t[0] - 2 * (road_t[i] / max_density) * (road_t[i] - road_t[0]))
         else:
-            road_dt[i] += 0.01/2 * (v(road_t[i]) * (road_t[i] - road_t[i+1]) + road_t[i] * (v(road_t[i]) - v(road_t[i+1])))
+            road_dt[i] += 0.01/2 * v_max * (road_t[i] - road_t[i+1] - 2 * (road_t[i] / max_density) * (road_t[i] - road_t[i+1]))
             
     time_elapsed += 1
     road_t = road_dt.copy()
@@ -48,11 +45,15 @@ array2 = []
 #pic_array = np.array(array2)
 #img = Image.fromarray(pic_array)
 x = range(0, 100)
-for i in range(100):
-    if i % 1 == 0:
-        y = np.array(road_ev[i])
-        plt.plot(x,y)
-        plt.xlabel('Position')
-        plt.ylabel('Density')
-        plt.savefig('plot' + str(i) + '.png')
-        plt.clf()
+y = range(0, 10000)
+X, Y = np.meshgrid(x, y)
+Z = np.array(road_ev)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, rstride=1, cstride=1,
+                cmap='viridis', edgecolor='none')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
+ax.view_init(90, 0)
+ax.view_init(60, 30)
